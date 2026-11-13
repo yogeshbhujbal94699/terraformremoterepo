@@ -4,11 +4,8 @@ resource "aws_instance" "name" {
     key_name = "south"  
     subnet_id = "subnet-0c559f43e0ae4d2bc"
     tags = {
-        name = "ec2"
+        name = "public"
     }
 
 }   
-resource "aws_s3_bucket" "name" {
-    bucket = "yogesh91"
-} 
 
