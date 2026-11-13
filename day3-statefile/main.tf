@@ -3,7 +3,6 @@ resource "aws_instance" "name" {
     instance_type = "t3.micro"
     key_name = "south"
     subnet_id = "subnet-077e35484843c5975"
-    availability_zone = "ap-south-1a"
     tags = {
         Name = "public"
     }
