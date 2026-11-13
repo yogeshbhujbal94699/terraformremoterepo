@@ -7,5 +7,8 @@ resource "aws_instance" "name" {
         name = "ec2"
     }
 
-}    
+}   
+resource "aws_s3_bucket" "name" {
+    bucket = "yogesh91"
+} 
 
