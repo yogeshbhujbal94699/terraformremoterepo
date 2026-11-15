@@ -1,0 +1,10 @@
+allocated_storage = 10
+db_name = "mydb"
+engine = "mysql"
+engine_version = "8.0"
+instance_class = "db.t4g.micro"
+username = "admin"
+password = "Ef23DYQM"
+parameter_group_name = "default.mysql8.0"
+name = "my-subnet-group"
+subnet_ids = ["subnet-028a37779c89cde0c", "subnet-00528fc82d6075296"]
