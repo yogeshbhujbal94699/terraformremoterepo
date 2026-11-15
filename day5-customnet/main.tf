@@ -1,96 +1,95 @@
-# creating a custom vpc
+# create vpc 
 resource "aws_vpc" "prod" {
     cidr_block = "10.0.0.0/16"
     tags = {
         Name = "prod"
     }
 }
-
-#creating a custom subnet
-resource "aws_subnet" "subnet1" {
+# create public subnet
+resource "aws_subnet" "public" {
     vpc_id = aws_vpc.prod.id
     cidr_block = "10.0.0.0/24"
     tags = {
-        Name = "subnet1"
+        Name = "public"
     }
 }
-#crfeating a custom private subnet
-resource "aws_subnet" "private_subnet" {
+#create private subnet
+resource "aws_subnet" "private" {
     vpc_id = aws_vpc.prod.id
     cidr_block = "10.0.1.0/24"
     tags = {
-        Name = "private_subnet"
+        Name = "private"
     }
 }
-# creating a custom internet gateway
-resource "aws_internet_gateway" "igw" {
+#create internet gateway
+resource "aws_internet_gateway" "igw"{
     vpc_id = aws_vpc.prod.id
     tags = {
         Name = "igw"
     }
 }
-#creating a custom route table
+#create route table and edit route
 resource "aws_route_table" "rt" {
     vpc_id = aws_vpc.prod.id
     route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.igw.id
     }
-    tags = {
+    tags = { 
         Name = "rt"
     }
-
 }
-#creating a custom route table association
+#create route table association
 resource "aws_route_table_association" "name" {
     route_table_id = aws_route_table.rt.id
-    subnet_id = aws_subnet.subnet1.id
-    
+    subnet_id = aws_subnet.public.id
 }
-#creating a custom nat gateway
- #creating a custom elastic ip
-resource "aws_eip" "eip" {
-  domain = "vpc"
-
-  tags = {
-    Name = "eip"
-  }
+#create nat gateway
+#create elastic ip
+resource "aws_eip" "janeman" {
+    domain = "vpc"
+    tags = {
+        Name = "janeman"
+    }
 }
 resource "aws_nat_gateway" "nat" {
-    allocation_id = aws_eip.eip.id
-    subnet_id = aws_subnet.private_subnet.id
+    allocation_id = aws_eip.janeman.id 
+    subnet_id = aws_subnet.private.id
     tags = {
         Name = "nat"
     }
 }
-#creating a custom private route table
-resource "aws_route_table" "private_rt" {
+#create private route table and edit route
+resource "aws_route_table" "prt" {
     vpc_id = aws_vpc.prod.id
-    route { 
+    route {
         cidr_block = "0.0.0.0/0"
         nat_gateway_id = aws_nat_gateway.nat.id
     }
     tags = {
-        Name = "private_rt"
+        Name = "prt"
     }
 }
-#creating a custom private route table association
+#create private route table association
 resource "aws_route_table_association" "name1" {
-    route_table_id = aws_route_table.private_rt.id
-    subnet_id = aws_subnet.private_subnet.id
+    route_table_id = aws_route_table.prt.id
+    subnet_id = aws_subnet.private.id
+
 }
-
-
-
-#creating a custom security group
+#craete security group
 resource "aws_security_group" "sg" {
     name = "sg"
-    description = "Allow SSH and HTTP"
+    description = "allow ssh and http"
     vpc_id = aws_vpc.prod.id
-
     ingress {
         from_port = 22
         to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 80
+        to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -103,4 +102,5 @@ resource "aws_security_group" "sg" {
     tags = {
         Name = "sg"
     }
+
 }
