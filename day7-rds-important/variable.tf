@@ -38,3 +38,11 @@ variable "subnet_ids" {
     type = list(string)
     
 }
+variable "skip_final_snapshot"{
+    type = bool
+    default = true
+}
+variable "publicly_accessible" {
+    type = bool
+    default = true
+}

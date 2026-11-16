@@ -12,8 +12,8 @@ resource "aws_db_instance" "default" {
   username             = var.username
   password             = var.password
   parameter_group_name = var.parameter_group_name
-  skip_final_snapshot  = true
-  publicly_accessible = true
+  skip_final_snapshot  = var.skip_final_snapshot
+  publicly_accessible = var.publicly_accessible
   #backup_retention_period = 7
   # vpc_security_group-ids = [aws_security_group.<name>.id]
 }

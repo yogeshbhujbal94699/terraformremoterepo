@@ -8,3 +8,5 @@ password = "Ef23DYQM"
 parameter_group_name = "default.mysql8.0"
 name = "my-subnet-group"
 subnet_ids = ["subnet-028a37779c89cde0c", "subnet-00528fc82d6075296"]
+skip_final_snapshot = true
+publicly_accessible = true
